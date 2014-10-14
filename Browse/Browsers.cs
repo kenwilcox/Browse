@@ -7,12 +7,18 @@ using System.IO;
 
 namespace Browse
 {
+  /// <summary>
+  /// Figures out what Browsers are installed on a computer, makes a list of them
+  /// </summary>
   public class Browsers: List<Browser>
   {
     private int defaultIndex;
     private string defaultName;
     private string defaultPath;
 
+    /// <summary>
+    /// The Only Constructor
+    /// </summary>
     public Browsers()
     {
       RegistryKey defaultKey = Registry.ClassesRoot.OpenSubKey(@"http\shell\open\command");
@@ -48,16 +54,25 @@ namespace Browse
       }
     }
 
+    /// <summary>
+    /// Returns the index in the list of the default browser
+    /// </summary>
     public int DefaultIndex
     {
       get { return this.defaultIndex; }
     }
 
+    /// <summary>
+    /// Returns the name of the default browser
+    /// </summary>
     public string DefaultName
     {
       get { return this.defaultName; }
     }
 
+    /// <summary>
+    /// Returns the path to the default browser
+    /// </summary>
     public string DefaultPath
     {
       get { return this.defaultPath; }

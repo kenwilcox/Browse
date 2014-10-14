@@ -175,7 +175,10 @@
       this.Controls.Add(this.btnOpen);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
       this.Name = "frmMain";
+      this.Opacity = 0.95D;
       this.Text = "Launcher";
+      this.TopMost = true;
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
       this.Load += new System.EventHandler(this.frmMain_Load);
       ((System.ComponentModel.ISupportInitialize)(this.udPause)).EndInit();
       this.ResumeLayout(false);

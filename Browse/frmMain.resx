@@ -118,15 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="txtPages.Text" xml:space="preserve">
-    <value>http://{root}
+    <value>http://{root}/
 http://{root}/ALINS/Registration.aspx
+http://{root}/Elected-Officials/Commissioners/Commissioners-Agenda/BOCC-Add-Agenda-Events.aspx 
 http://{root}/Elected-Officials/Commissioners/Commissioners-Agenda.aspx
 http://{root}/Intranet/Employee-Lookup-Phone-Book.aspx
 http://{root}/Elected-Officials/Sheriff/Probation-Information.aspx
+http://{root}/Probation 
 http://{root}/Elected-Officials/Clerk/Recorder/Recorder-Images.aspx
+http://{root}/RecorderImages 
 http://{root}/CurrentArrests
 http://{root}/JailRoster
 http://{root}/TaxRoll.aspx
-http://{root}/JuvDetention/Welcome.aspx</value>
+http://{root}/JuvDetention/Welcome.aspx
+http://{root}/Intranet/Applications.aspx
+http://{root}/IT/Test-Pages/CCElectionNightResultsTestPage.aspx
+http://{root}/IT/Test-Pages/CCViewportTestPage.aspx</value>
   </data>
 </root>

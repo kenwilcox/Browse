@@ -16,6 +16,13 @@ namespace Browse
     [DllImport("user32.dll", EntryPoint = "DestroyIcon", SetLastError = true)]
     private static extern int DestroyIcon(IntPtr hIcon);
 
+    /// <summary>
+    /// Extracts an icon resource from an executable
+    /// </summary>
+    /// <param name="file">The file to get the icon from</param>
+    /// <param name="index">The index of the icon to retreive</param>
+    /// <param name="large">If true returns a large icon, false returns a small one</param>
+    /// <returns>The Icon requested or null</returns>
     public static Icon ExtractIconFromExe(string file, int index, bool large)
     {
       uint readIconCount = 0;
@@ -59,6 +66,12 @@ namespace Browse
       }
     }
 
+    /// <summary>
+    /// Extracts an icon resource from an executable 
+    /// </summary>
+    /// <param name="file">The file to get the icon from (it can contain a comma and index as well)</param>
+    /// <param name="large">If true returns a large icon, false returns a small one</param>
+    /// <returns>The Icon requested or null</returns>
     public static Icon ExtractIconFromExe(string file, bool large)
     {
       int index = 0;

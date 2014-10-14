@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace Browse
 {
@@ -15,6 +13,7 @@ namespace Browse
   {
     private Browsers browsers;
     private Browser browser;
+    private Worker worker;
 
     public frmMain()
     {
@@ -23,12 +22,32 @@ namespace Browse
 
     private void frmMain_Load(object sender, EventArgs e)
     {
+      DoLoad();
+    }
+
+    private void cboBrowsers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      SelectBrowser();
+    }
+
+    private void btnOpen_Click(object sender, EventArgs e)
+    {
+      StartWorker();
+    }
+
+    private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      StopWorker();
+    }
+
+    private void DoLoad()
+    {
       browsers = new Browsers();
       cboBrowsers.DataSource = browsers;
       cboBrowsers.SelectedIndex = browsers.DefaultIndex;
     }
 
-    private void cboBrowsers_SelectedIndexChanged(object sender, EventArgs e)
+    private void SelectBrowser()
     {
       browser = (Browser)cboBrowsers.SelectedItem;
       Icon ico = IconExtractor.ExtractIconFromExe(browser.DefaultIcon, true);
@@ -39,32 +58,18 @@ namespace Browse
       }
     }
 
-    private void btnOpen_Click(object sender, EventArgs e)
+    private void StartWorker()
     {
-      string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+      string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       int pause = (int)udPause.Value;
-      if (pages.Count() > 0)
-      {
-        for (int i = 0; i < pages.Count(); i++)
-        {
-          string page = pages[i].Replace("{root}", txtRoot.Text);
-          Process.Start(browser.Command, page);
+      worker = new Worker(browser, pages, txtRoot.Text, pause, cbPause.Checked);
+      worker.Go();
+    }
 
-          if (i == 0)
-          {
-            if (cbPause.Checked)
-              MessageBox.Show("Press Log In to the web site then press OK to continue", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            else  // We're going to assume we don't need to pause because of the Login.
-              Thread.Sleep(pause);
-          }
-          else
-          {
-            Thread.Sleep(pause);
-          }
-        }
-      }
-      else
-        MessageBox.Show("Nothing to do!");
+    private void StopWorker()
+    {
+      if (worker != null)
+        worker.Abort();
     }
   }
 }

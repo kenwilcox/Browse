@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Browse
 {
+  /// <summary>
+  /// Just a simple class to hold browser information
+  /// </summary>
   public class Browser
   {
     public string Name { get; set; }
