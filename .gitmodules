@@ -1,0 +1,3 @@
+[submodule "CC.Common.JSON"]
+	path = CC.Common.JSON
+	url = git@github.com:CanyonCounty/CC.Common.JSON.git
