@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyExtractLoader.cs" />
     <Compile Include="Browser.cs" />
     <Compile Include="Browsers.cs" />
     <Compile Include="frmMain.cs">
@@ -84,7 +85,13 @@
     <ProjectReference Include="..\CC.Common.JSON\CC.Common.JSON\CC.Common.JSON.csproj">
       <Project>{3be57aba-0683-45ae-9434-f0f1bdd0030f}</Project>
       <Name>CC.Common.JSON</Name>
+      <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\CC.Common.JSON\CC.Common.JSON\bin\Release\CC.Common.JSON.dll">
+      <Link>Libs\CC.Common.JSON.dll</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

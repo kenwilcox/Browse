@@ -7,11 +7,7 @@ namespace Browse
 {
   static class Program
   {
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
+    public static void Go(string[] args)
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CC.Common.JSON;
 
 namespace Browse
 {
@@ -45,6 +46,10 @@ namespace Browse
       browsers = new Browsers();
       cboBrowsers.DataSource = browsers;
       cboBrowsers.SelectedIndex = browsers.DefaultIndex;
+
+      // Just to verify the Assembly loads from resource
+      CCPreferences prefs = new CCPreferences();
+      prefs.Load();
     }
 
     private void SelectBrowser()
