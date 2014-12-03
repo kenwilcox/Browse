@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -88,7 +89,11 @@ namespace Browse
       _prefs.Set("root", txtRoot.Text);
       _prefs.Set("pause", cbPause.Checked);
       _prefs.Set("pauseTime", udPause.Value);
-      _prefs.Set("pages", txtPages.Text);
+
+      string[] lines = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+      ArrayList list = new ArrayList(lines);
+      _prefs.Set("pages", list);
+
       _prefs.Save();
     }
   }
