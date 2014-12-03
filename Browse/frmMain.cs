@@ -15,6 +15,7 @@ namespace Browse
     private Browsers _browsers;
     private Browser _browser;
     private Worker _worker;
+    private CCPreferences _prefs;
 
     public frmMain()
     {
@@ -39,6 +40,7 @@ namespace Browse
     private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
     {
       StopWorker();
+      SavePreferences();
     }
 
     private void DoLoad()
@@ -47,9 +49,7 @@ namespace Browse
       cboBrowsers.DataSource = _browsers;
       cboBrowsers.SelectedIndex = _browsers.DefaultIndex;
 
-      // Just to verify the Assembly loads from resource
-      CCPreferences prefs = new CCPreferences();
-      prefs.Load();
+      LoadPreferences();
     }
 
     private void SelectBrowser()
@@ -75,6 +75,21 @@ namespace Browse
     {
       if (_worker != null)
         _worker.Abort();
+    }
+
+    private void LoadPreferences()
+    {
+      _prefs = new CCPreferences();
+      _prefs.Load();
+    }
+
+    private void SavePreferences()
+    {
+      _prefs.Set("root", txtRoot.Text);
+      _prefs.Set("pause", cbPause.Checked);
+      _prefs.Set("pauseTime", udPause.Value);
+      _prefs.Set("pages", txtPages.Text);
+      _prefs.Save();
     }
   }
 }
