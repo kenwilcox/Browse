@@ -12,9 +12,9 @@ namespace Browse
 {
   public partial class frmMain : Form
   {
-    private Browsers browsers;
-    private Browser browser;
-    private Worker worker;
+    private Browsers _browsers;
+    private Browser _browser;
+    private Worker _worker;
 
     public frmMain()
     {
@@ -43,9 +43,9 @@ namespace Browse
 
     private void DoLoad()
     {
-      browsers = new Browsers();
-      cboBrowsers.DataSource = browsers;
-      cboBrowsers.SelectedIndex = browsers.DefaultIndex;
+      _browsers = new Browsers();
+      cboBrowsers.DataSource = _browsers;
+      cboBrowsers.SelectedIndex = _browsers.DefaultIndex;
 
       // Just to verify the Assembly loads from resource
       CCPreferences prefs = new CCPreferences();
@@ -54,8 +54,8 @@ namespace Browse
 
     private void SelectBrowser()
     {
-      browser = (Browser)cboBrowsers.SelectedItem;
-      Icon ico = IconExtractor.ExtractIconFromExe(browser.DefaultIcon, true);
+      _browser = (Browser)cboBrowsers.SelectedItem;
+      Icon ico = IconExtractor.ExtractIconFromExe(_browser.DefaultIcon, true);
       if (ico != null)
       {
         btnOpen.Image = ico.ToBitmap();
@@ -67,14 +67,14 @@ namespace Browse
     {
       string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       int pause = (int)udPause.Value;
-      worker = new Worker(browser, pages, txtRoot.Text, pause, cbPause.Checked);
-      worker.Go();
+      _worker = new Worker(_browser, pages, txtRoot.Text, pause, cbPause.Checked);
+      _worker.Go();
     }
 
     private void StopWorker()
     {
-      if (worker != null)
-        worker.Abort();
+      if (_worker != null)
+        _worker.Abort();
     }
   }
 }
