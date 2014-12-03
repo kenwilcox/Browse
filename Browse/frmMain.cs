@@ -82,6 +82,25 @@ namespace Browse
     {
       _prefs = new CCPreferences();
       _prefs.Load();
+
+      txtRoot.Text = _prefs.Get("root", "");
+      cbPause.Checked = _prefs.Get("pause", false);
+      udPause.Value = _prefs.Get("pauseTime", 1000);
+
+      this.Opacity = _prefs.Get("opacity", this.Opacity);
+      this.TopMost = _prefs.Get("topMost", this.TopMost);
+
+      ArrayList list = new ArrayList();
+      String text = String.Empty;
+      list = (ArrayList)_prefs.Get("pages", (ArrayList)null);
+      if (list != null)
+      {
+        foreach (string line in list)
+        {
+          text += line + Environment.NewLine;
+        }
+      }
+      txtPages.Text = text;
     }
 
     private void SavePreferences()
@@ -90,7 +109,7 @@ namespace Browse
       _prefs.Set("pause", cbPause.Checked);
       _prefs.Set("pauseTime", udPause.Value);
 
-      string[] lines = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+      string[] lines = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       ArrayList list = new ArrayList(lines);
       _prefs.Set("pages", list);
 
