@@ -46,6 +46,8 @@ namespace Browse
 
     private void DoLoad()
     {
+      this.Icon = Properties.Resources.moon;
+
       _browsers = new Browsers();
       cboBrowsers.DataSource = _browsers;
       cboBrowsers.SelectedIndex = _browsers.DefaultIndex;
