@@ -107,6 +107,8 @@ namespace Browse
 
     private void SavePreferences()
     {
+      this.Hide();
+
       _prefs.Set("root", txtRoot.Text);
       _prefs.Set("pause", cbPause.Checked);
       _prefs.Set("pauseTime", udPause.Value);
