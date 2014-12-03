@@ -94,7 +94,7 @@ namespace Browse
 
       ArrayList list = new ArrayList();
       String text = String.Empty;
-      list = (ArrayList)_prefs.Get("pages", (ArrayList)null);
+      list = (ArrayList)_prefs.Get("pages", (ArrayList)list);
       if (list != null)
       {
         foreach (string line in list)
@@ -107,8 +107,6 @@ namespace Browse
 
     private void SavePreferences()
     {
-      this.Hide();
-
       _prefs.Set("root", txtRoot.Text);
       _prefs.Set("pause", cbPause.Checked);
       _prefs.Set("pauseTime", udPause.Value);
