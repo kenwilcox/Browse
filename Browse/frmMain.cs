@@ -11,7 +11,7 @@ using CC.Common.JSON;
 
 namespace Browse
 {
-  public partial class frmMain : Form
+  public partial class frmMain : Form, INotifier
   {
     private Browsers _browsers;
     private Browser _browser;
@@ -70,7 +70,7 @@ namespace Browse
     {
       string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       int pause = (int)udPause.Value;
-      _worker = new Worker(_browser, pages, txtRoot.Text, pause, cbPause.Checked);
+      _worker = new Worker(this, _browser, pages, txtRoot.Text, pause, cbPause.Checked);
       _worker.Go();
     }
 
@@ -117,5 +117,14 @@ namespace Browse
 
       _prefs.Save();
     }
+
+    #region INotifier Members
+
+    public void ShowMessage(string message, string caption = "")
+    {
+      MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+    }
+
+    #endregion
   }
 }

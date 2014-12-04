@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace Browse
 {
@@ -19,6 +18,7 @@ namespace Browse
     private int _pauseLen;
     private bool _pausefirst;
     private Thread thread;
+    private INotifier _notifier;
 
     /// <summary>
     /// Creates a worker object and sets everything up
@@ -28,13 +28,14 @@ namespace Browse
     /// <param name="root">The variable to replace {root} in the templates with</param>
     /// <param name="pauseLen">The amount of time to pause</param>
     /// <param name="pausefirst">If true, it will wait for the user to continue</param>
-    public Worker(Browser browser, string[] pages, string root, int pauseLen, bool pausefirst)
+    public Worker(INotifier notifier, Browser browser, string[] pages, string root, int pauseLen, bool pausefirst)
     {
       _browser = browser;
       _pages = pages;
       _root = root;
       _pauseLen = pauseLen;
       _pausefirst = pausefirst;
+      _notifier = notifier;
 
       thread = new Thread(DoIt);
     }
@@ -67,7 +68,7 @@ namespace Browse
           if (i == 0)
           {
             if (_pausefirst)
-              MessageBox.Show("Please Log In to the web site, then press OK to continue", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+              _notifier.ShowMessage("Please Log In to the web site, then press OK to continue", "Paused");
             else  // We're going to assume we don't need to pause because of the Login.
               Thread.Sleep(_pauseLen);
           }
@@ -80,7 +81,7 @@ namespace Browse
         //TODO: Create a delegate to call back to once finished
       }
       else
-        MessageBox.Show("Nothing to do!");
+        _notifier.ShowMessage("Nothing to do!");
     }
   }
 }
