@@ -14,8 +14,8 @@ namespace Browse
   public class Worker
   {
     private Browser _browser;
-    private string[] _pages; 
-    private string _root; 
+    private string[] _pages;
+    private string _root;
     private int _pauseLen;
     private bool _pausefirst;
     private Thread thread;
@@ -38,7 +38,7 @@ namespace Browse
 
       thread = new Thread(DoIt);
     }
-    
+
     /// <summary>
     /// Starts the process/Thread
     /// </summary>
@@ -67,7 +67,7 @@ namespace Browse
           if (i == 0)
           {
             if (_pausefirst)
-              MessageBox.Show("Press Log In to the web site then press OK to continue", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+              MessageBox.Show("Please Log In to the web site, then press OK to continue", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else  // We're going to assume we don't need to pause because of the Login.
               Thread.Sleep(_pauseLen);
           }
