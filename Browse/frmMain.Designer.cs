@@ -39,7 +39,13 @@
       this.txtPages = new System.Windows.Forms.TextBox();
       this.udPause = new System.Windows.Forms.NumericUpDown();
       this.label1 = new System.Windows.Forms.Label();
+      this.pnlMsg = new System.Windows.Forms.Panel();
+      this.pnlMsgText = new System.Windows.Forms.Panel();
+      this.btnAccept = new System.Windows.Forms.Button();
+      this.lblMessage = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.udPause)).BeginInit();
+      this.pnlMsg.SuspendLayout();
+      this.pnlMsgText.SuspendLayout();
       this.SuspendLayout();
       // 
       // btnOpen
@@ -158,11 +164,60 @@
       this.label1.TabIndex = 9;
       this.label1.Text = "Delay (in ms) between pages";
       // 
+      // pnlMsg
+      // 
+      this.pnlMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.pnlMsg.BackColor = System.Drawing.SystemColors.Highlight;
+      this.pnlMsg.Controls.Add(this.pnlMsgText);
+      this.pnlMsg.Location = new System.Drawing.Point(13, 114);
+      this.pnlMsg.Name = "pnlMsg";
+      this.pnlMsg.Size = new System.Drawing.Size(274, 200);
+      this.pnlMsg.TabIndex = 10;
+      this.pnlMsg.Visible = false;
+      // 
+      // pnlMsgText
+      // 
+      this.pnlMsgText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.pnlMsgText.BackColor = System.Drawing.SystemColors.Control;
+      this.pnlMsgText.Controls.Add(this.lblMessage);
+      this.pnlMsgText.Controls.Add(this.btnAccept);
+      this.pnlMsgText.Location = new System.Drawing.Point(3, 3);
+      this.pnlMsgText.Name = "pnlMsgText";
+      this.pnlMsgText.Size = new System.Drawing.Size(268, 194);
+      this.pnlMsgText.TabIndex = 0;
+      // 
+      // btnAccept
+      // 
+      this.btnAccept.Location = new System.Drawing.Point(95, 144);
+      this.btnAccept.Name = "btnAccept";
+      this.btnAccept.Size = new System.Drawing.Size(75, 23);
+      this.btnAccept.TabIndex = 0;
+      this.btnAccept.Text = "OK";
+      this.btnAccept.UseVisualStyleBackColor = true;
+      this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
+      // 
+      // lblMessage
+      // 
+      this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblMessage.Location = new System.Drawing.Point(15, 18);
+      this.lblMessage.Name = "lblMessage";
+      this.lblMessage.Size = new System.Drawing.Size(241, 123);
+      this.lblMessage.TabIndex = 1;
+      this.lblMessage.Text = "There was an error, or something";
+      this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      // 
       // frmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(299, 326);
+      this.Controls.Add(this.pnlMsg);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.udPause);
       this.Controls.Add(this.txtPages);
@@ -181,6 +236,8 @@
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
       this.Load += new System.EventHandler(this.frmMain_Load);
       ((System.ComponentModel.ISupportInitialize)(this.udPause)).EndInit();
+      this.pnlMsg.ResumeLayout(false);
+      this.pnlMsgText.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -198,6 +255,10 @@
     private System.Windows.Forms.TextBox txtPages;
     private System.Windows.Forms.NumericUpDown udPause;
     private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.Panel pnlMsg;
+    private System.Windows.Forms.Panel pnlMsgText;
+    private System.Windows.Forms.Label lblMessage;
+    private System.Windows.Forms.Button btnAccept;
   }
 }
 

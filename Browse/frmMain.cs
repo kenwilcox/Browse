@@ -17,6 +17,7 @@ namespace Browse
     private Browser _browser;
     private Worker _worker;
     private CCPreferences _prefs;
+    private bool _showDialog;
 
     public frmMain()
     {
@@ -120,11 +121,32 @@ namespace Browse
 
     #region INotifier Members
 
-    public void ShowMessage(string message, string caption = "")
+    public bool ShowMessage(string message, MessageType type)
     {
-      MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+      //MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+      _showDialog = true;
+      this.Invoke((MethodInvoker)delegate
+      {
+        switch(type)
+        {
+          case MessageType.Normal: pnlMsg.BackColor = SystemColors.Highlight; break;
+          case MessageType.Error: pnlMsg.BackColor = Color.Red; break;
+        }
+        lblMessage.Text = message;
+        pnlMsg.Visible = true;
+      });
+
+      while (_showDialog)
+        System.Threading.Thread.Sleep(100);
+      return true;
     }
 
     #endregion
+
+    private void btnAccept_Click(object sender, EventArgs e)
+    {
+      pnlMsg.Visible = false;
+      _showDialog = false;
+    }
   }
 }

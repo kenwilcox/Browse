@@ -68,9 +68,10 @@ namespace Browse
           if (i == 0)
           {
             if (_pausefirst)
-              _notifier.ShowMessage("Please Log In to the web site, then press OK to continue", "Paused");
-            else  // We're going to assume we don't need to pause because of the Login.
-              Thread.Sleep(_pauseLen);
+              if (_notifier.ShowMessage("Please Log In to the web site\r\nThen press OK to continue", MessageType.Normal) == false)
+                break;
+              else  // We're going to assume we don't need to pause because of the Login.
+                Thread.Sleep(_pauseLen);
           }
           else
           {
@@ -81,7 +82,7 @@ namespace Browse
         //TODO: Create a delegate to call back to once finished
       }
       else
-        _notifier.ShowMessage("Nothing to do!");
+        _notifier.ShowMessage("Nothing to do!", MessageType.Error);
     }
   }
 }

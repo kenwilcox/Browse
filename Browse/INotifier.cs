@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Browse
 {
+  public enum MessageType
+  {
+    Normal,
+    Error,
+  }
+
   public interface INotifier
   {
-    void ShowMessage(string message, string caption = "");
+    bool ShowMessage(string message, MessageType type);
   }
 }
