@@ -192,6 +192,7 @@
       // 
       // btnAccept
       // 
+      this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
       this.btnAccept.Location = new System.Drawing.Point(95, 144);
       this.btnAccept.Name = "btnAccept";
       this.btnAccept.Size = new System.Drawing.Size(75, 23);
