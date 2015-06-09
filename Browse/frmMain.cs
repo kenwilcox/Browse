@@ -1,29 +1,54 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using Browse.Properties;
 using CC.Common.JSON;
 
 namespace Browse
 {
   public partial class frmMain : Form, INotifier
   {
-    private Browsers _browsers;
     private Browser _browser;
-    private Worker _worker;
+    private Browsers _browsers;
+    private int _executionCount;
     private CCPreferences _prefs;
     private bool _showDialog;
-    private int _executionCount;
+    private Worker _worker;
 
     public frmMain()
     {
       InitializeComponent();
     }
+
+    #region INotifier Members
+
+    public bool ShowMessage(string message, MessageType type)
+    {
+      //MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+      _showDialog = true;
+      Invoke((MethodInvoker) delegate
+      {
+        switch (type)
+        {
+          case MessageType.Normal:
+            pnlMsg.BackColor = SystemColors.Highlight;
+            break;
+          case MessageType.Error:
+            pnlMsg.BackColor = Color.Red;
+            break;
+        }
+        lblMessage.Text = message;
+        pnlMsg.Visible = true;
+      });
+
+      while (_showDialog)
+        Thread.Sleep(100);
+      return true;
+    }
+
+    #endregion
 
     private void frmMain_Load(object sender, EventArgs e)
     {
@@ -37,7 +62,7 @@ namespace Browse
 
     private void btnOpen_Click(object sender, EventArgs e)
     {
-      _executionCount = (int)udRepeat.Value;
+      _executionCount = (int) udRepeat.Value;
       StartWorker();
     }
 
@@ -49,7 +74,7 @@ namespace Browse
 
     private void DoLoad()
     {
-      this.Icon = Properties.Resources.moon;
+      Icon = Resources.moon;
 
       _browsers = new Browsers();
       cboBrowsers.DataSource = _browsers;
@@ -60,8 +85,8 @@ namespace Browse
 
     private void SelectBrowser()
     {
-      _browser = (Browser)cboBrowsers.SelectedItem;
-      Icon ico = IconExtractor.ExtractIconFromExe(_browser.DefaultIcon, true);
+      _browser = (Browser) cboBrowsers.SelectedItem;
+      var ico = IconExtractor.ExtractIconFromExe(_browser.DefaultIcon, true);
       if (ico != null)
       {
         btnOpen.Image = ico.ToBitmap();
@@ -71,8 +96,8 @@ namespace Browse
 
     private void StartWorker()
     {
-      string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-      int pause = (int)udPause.Value;
+      var pages = txtPages.Text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+      var pause = (int) udPause.Value;
       _worker = new Worker(this, _browser, pages, txtRoot.Text, pause, cbPause.Checked);
       _worker.ThreadDone += ThreadDone;
       _worker.Go();
@@ -94,12 +119,12 @@ namespace Browse
       udPause.Value = _prefs.Get("pauseTime", 1000);
       cbRepeat.Checked = _prefs.Get("repeat", false);
       udRepeat.Value = _prefs.Get("repeatTimes", 10);
-      this.Opacity = _prefs.Get("opacity", this.Opacity);
-      this.TopMost = _prefs.Get("topMost", this.TopMost);
+      Opacity = _prefs.Get("opacity", Opacity);
+      TopMost = _prefs.Get("topMost", TopMost);
 
-      ArrayList list = new ArrayList();
-      String text = String.Empty;
-      list = (ArrayList)_prefs.Get("pages", (ArrayList)list);
+      var list = new ArrayList();
+      var text = String.Empty;
+      list = (ArrayList) _prefs.Get("pages", list);
       if (list != null)
       {
         foreach (string line in list)
@@ -118,10 +143,10 @@ namespace Browse
       _prefs.Set("repeat", cbRepeat.Checked);
       _prefs.Set("repeatTimes", udRepeat.Value);
 
-      string[] lines = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+      var lines = txtPages.Text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
       if (lines.Length > 0)
       {
-        ArrayList list = new ArrayList(lines);
+        var list = new ArrayList(lines);
         _prefs.Set("pages", list);
       }
       else
@@ -130,30 +155,6 @@ namespace Browse
       }
       _prefs.Save();
     }
-
-    #region INotifier Members
-
-    public bool ShowMessage(string message, MessageType type)
-    {
-      //MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-      _showDialog = true;
-      this.Invoke((MethodInvoker)delegate
-      {
-        switch (type)
-        {
-          case MessageType.Normal: pnlMsg.BackColor = SystemColors.Highlight; break;
-          case MessageType.Error: pnlMsg.BackColor = Color.Red; break;
-        }
-        lblMessage.Text = message;
-        pnlMsg.Visible = true;
-      });
-
-      while (_showDialog)
-        System.Threading.Thread.Sleep(100);
-      return true;
-    }
-
-    #endregion
 
     private void ThreadDone(object sender, EventArgs e)
     {
@@ -164,6 +165,7 @@ namespace Browse
           StartWorker();
       }
     }
+
     private void btnAccept_Click(object sender, EventArgs e)
     {
       pnlMsg.Visible = false;

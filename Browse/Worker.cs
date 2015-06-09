@@ -1,30 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Browse
 {
   /// <summary>
-  /// Handles the work of opening up the pages in a separate thread
+  ///   Handles the work of opening up the pages in a separate thread
   /// </summary>
   public class Worker
   {
-    private Browser _browser;
-    private string[] _pages;
-    private string _root;
-    private int _pauseLen;
-    private bool _pausefirst;
-    private Thread thread;
-    private INotifier _notifier;
-
-    public EventHandler ThreadDone { get; set; }
+    private readonly Browser _browser;
+    private readonly INotifier _notifier;
+    private readonly string[] _pages;
+    private readonly bool _pausefirst;
+    private readonly int _pauseLen;
+    private readonly string _root;
+    private readonly Thread _thread;
 
     /// <summary>
-    /// Creates a worker object and sets everything up
+    ///   Creates a worker object and sets everything up
     /// </summary>
+    /// <param name="notifier">Object to send notifications to</param>
     /// <param name="browser">The browser to use</param>
     /// <param name="pages">The page templates to use</param>
     /// <param name="root">The variable to replace {root} in the templates with</param>
@@ -39,38 +36,42 @@ namespace Browse
       _pausefirst = pausefirst;
       _notifier = notifier;
 
-      thread = new Thread(DoIt);
+      _thread = new Thread(DoIt);
     }
 
+    public EventHandler ThreadDone { get; set; }
+
     /// <summary>
-    /// Starts the process/Thread
+    ///   Starts the process/Thread
     /// </summary>
     public void Go()
     {
-      thread.Start();
+      _thread.Start();
     }
 
     /// <summary>
-    /// Aborts the process/thread
+    ///   Aborts the process/thread
     /// </summary>
     public void Abort()
     {
-      thread.Abort();
+      _thread.Abort();
     }
 
     private void DoIt()
     {
       if (_pages.Count() > 0)
       {
-        for (int i = 0; i < _pages.Count(); i++)
+        for (var i = 0; i < _pages.Count(); i++)
         {
-          string page = _pages[i].Replace("{root}", _root);
+          var page = _pages[i].Replace("{root}", _root);
           Process.Start(_browser.Command, page);
 
           if (i == 0)
           {
             if (_pausefirst)
-              if (_notifier.ShowMessage("Please Log In to the web site\r\nThen press OK to continue", MessageType.Normal) == false)
+              if (
+                _notifier.ShowMessage("Please Log In to the web site\r\nThen press OK to continue", MessageType.Normal) ==
+                false)
                 break;
             //else  // We're going to assume we don't need to pause because of the Login.
             Thread.Sleep(_pauseLen);

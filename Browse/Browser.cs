@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Browse
+﻿namespace Browse
 {
   /// <summary>
-  /// Just a simple class to hold browser information
+  ///   Just a simple class to hold browser information
   /// </summary>
   public class Browser
   {
@@ -17,7 +12,7 @@ namespace Browse
 
     public override string ToString()
     {
-      return this.Name;
+      return Name;
     }
   }
 }

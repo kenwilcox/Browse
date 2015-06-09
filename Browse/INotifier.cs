@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Browse
+﻿namespace Browse
 {
   public enum MessageType
   {
     Normal,
-    Error,
+    Error
   }
 
   public interface INotifier

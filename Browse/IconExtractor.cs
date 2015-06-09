@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Drawing;
 
 namespace Browse
 {
   public class IconExtractor
   {
     [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-    static extern uint ExtractIconEx(string szFileName, int nIconIndex,
-       IntPtr[] phiconLarge, IntPtr[] phiconSmall, uint nIcons);
+    private static extern uint ExtractIconEx(string szFileName, int nIconIndex,
+      IntPtr[] phiconLarge, IntPtr[] phiconSmall, uint nIcons);
 
     [DllImport("user32.dll", EntryPoint = "DestroyIcon", SetLastError = true)]
     private static extern int DestroyIcon(IntPtr hIcon);
 
     /// <summary>
-    /// Extracts an icon resource from an executable
+    ///   Extracts an icon resource from an executable
     /// </summary>
     /// <param name="file">The file to get the icon from</param>
     /// <param name="index">The index of the icon to retreive</param>
@@ -25,12 +23,12 @@ namespace Browse
     /// <returns>The Icon requested or null</returns>
     public static Icon ExtractIconFromExe(string file, int index, bool large)
     {
-      uint readIconCount = 0;
-      IntPtr[] hDummy = new IntPtr[1] { IntPtr.Zero };
-      IntPtr[] hIconEx = new IntPtr[1] { IntPtr.Zero };
+      var hDummy = new[] {IntPtr.Zero};
+      var hIconEx = new[] {IntPtr.Zero};
 
       try
       {
+        uint readIconCount;
         if (large)
           readIconCount = ExtractIconEx(file, index, hIconEx, hDummy, 1);
         else
@@ -39,7 +37,7 @@ namespace Browse
         if (readIconCount > 0 && hIconEx[0] != IntPtr.Zero)
         {
           // GET FIRST EXTRACTED ICON
-          Icon extractedIcon = (Icon)Icon.FromHandle(hIconEx[0]).Clone();
+          var extractedIcon = (Icon) Icon.FromHandle(hIconEx[0]).Clone();
 
           return extractedIcon;
         }
@@ -56,26 +54,26 @@ namespace Browse
       finally
       {
         // RELEASE RESOURCES
-        foreach (IntPtr ptr in hIconEx)
+        foreach (var ptr in hIconEx)
           if (ptr != IntPtr.Zero)
             DestroyIcon(ptr);
 
-        foreach (IntPtr ptr in hDummy)
+        foreach (var ptr in hDummy)
           if (ptr != IntPtr.Zero)
             DestroyIcon(ptr);
       }
     }
 
     /// <summary>
-    /// Extracts an icon resource from an executable 
+    ///   Extracts an icon resource from an executable
     /// </summary>
     /// <param name="file">The file to get the icon from (it can contain a comma and index as well)</param>
     /// <param name="large">If true returns a large icon, false returns a small one</param>
     /// <returns>The Icon requested or null</returns>
     public static Icon ExtractIconFromExe(string file, bool large)
     {
-      int index = 0;
-      string[] parts = file.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+      var index = 0;
+      var parts = file.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
       if (parts.Count() == 2)
       {
         file = parts[0];
