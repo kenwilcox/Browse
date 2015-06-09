@@ -20,6 +20,8 @@ namespace Browse
     private Thread thread;
     private INotifier _notifier;
 
+    public EventHandler ThreadDone { get; set; }
+
     /// <summary>
     /// Creates a worker object and sets everything up
     /// </summary>
@@ -70,8 +72,8 @@ namespace Browse
             if (_pausefirst)
               if (_notifier.ShowMessage("Please Log In to the web site\r\nThen press OK to continue", MessageType.Normal) == false)
                 break;
-              else  // We're going to assume we don't need to pause because of the Login.
-                Thread.Sleep(_pauseLen);
+            //else  // We're going to assume we don't need to pause because of the Login.
+            Thread.Sleep(_pauseLen);
           }
           else
           {
@@ -79,7 +81,8 @@ namespace Browse
           }
         }
 
-        //TODO: Create a delegate to call back to once finished
+        if (ThreadDone != null)
+          ThreadDone(this, EventArgs.Empty);
       }
       else
         _notifier.ShowMessage("Nothing to do!", MessageType.Error);

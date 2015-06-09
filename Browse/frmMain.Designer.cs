@@ -41,11 +41,14 @@
       this.label1 = new System.Windows.Forms.Label();
       this.pnlMsg = new System.Windows.Forms.Panel();
       this.pnlMsgText = new System.Windows.Forms.Panel();
+            this.lblMessage = new System.Windows.Forms.Label();
       this.btnAccept = new System.Windows.Forms.Button();
-      this.lblMessage = new System.Windows.Forms.Label();
+            this.udRepeat = new System.Windows.Forms.NumericUpDown();
+            this.cbRepeat = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.udPause)).BeginInit();
       this.pnlMsg.SuspendLayout();
       this.pnlMsgText.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udRepeat)).BeginInit();
       this.SuspendLayout();
       // 
       // btnOpen
@@ -130,7 +133,7 @@
       this.txtPages.Multiline = true;
       this.txtPages.Name = "txtPages";
       this.txtPages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.txtPages.Size = new System.Drawing.Size(274, 135);
+            this.txtPages.Size = new System.Drawing.Size(274, 111);
       this.txtPages.TabIndex = 8;
       this.txtPages.Text = resources.GetString("txtPages.Text");
       this.txtPages.WordWrap = false;
@@ -190,17 +193,6 @@
       this.pnlMsgText.Size = new System.Drawing.Size(268, 194);
       this.pnlMsgText.TabIndex = 0;
       // 
-      // btnAccept
-      // 
-      this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-      this.btnAccept.Location = new System.Drawing.Point(95, 144);
-      this.btnAccept.Name = "btnAccept";
-      this.btnAccept.Size = new System.Drawing.Size(75, 23);
-      this.btnAccept.TabIndex = 0;
-      this.btnAccept.Text = "OK";
-      this.btnAccept.UseVisualStyleBackColor = true;
-      this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
-      // 
       // lblMessage
       // 
       this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -212,7 +204,47 @@
       this.lblMessage.TabIndex = 1;
       this.lblMessage.Text = "There was an error, or something";
       this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-      // 
+            // 
+            // btnAccept
+            // 
+            this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnAccept.Location = new System.Drawing.Point(95, 144);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(75, 23);
+            this.btnAccept.TabIndex = 0;
+            this.btnAccept.Text = "OK";
+            this.btnAccept.UseVisualStyleBackColor = true;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
+            // 
+            // udRepeat
+            // 
+            this.udRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.udRepeat.Location = new System.Drawing.Point(159, 294);
+            this.udRepeat.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.udRepeat.Name = "udRepeat";
+            this.udRepeat.Size = new System.Drawing.Size(128, 20);
+            this.udRepeat.TabIndex = 11;
+            this.udRepeat.ThousandsSeparator = true;
+            this.udRepeat.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // cbRepeat
+            // 
+            this.cbRepeat.AutoSize = true;
+            this.cbRepeat.Location = new System.Drawing.Point(51, 295);
+            this.cbRepeat.Name = "cbRepeat";
+            this.cbRepeat.Size = new System.Drawing.Size(102, 17);
+            this.cbRepeat.TabIndex = 12;
+            this.cbRepeat.Text = "Repeat (x times)";
+            this.cbRepeat.UseVisualStyleBackColor = true;
       // frmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,6 +261,8 @@
       this.Controls.Add(this.lblChoose);
       this.Controls.Add(this.cboBrowsers);
       this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.cbRepeat);
+            this.Controls.Add(this.udRepeat);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
       this.Name = "frmMain";
       this.Opacity = 0.95D;
@@ -239,6 +273,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.udPause)).EndInit();
       this.pnlMsg.ResumeLayout(false);
       this.pnlMsgText.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.udRepeat)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -260,6 +295,8 @@
     private System.Windows.Forms.Panel pnlMsgText;
     private System.Windows.Forms.Label lblMessage;
     private System.Windows.Forms.Button btnAccept;
+    private System.Windows.Forms.NumericUpDown udRepeat;
+    private System.Windows.Forms.CheckBox cbRepeat;
   }
 }
 

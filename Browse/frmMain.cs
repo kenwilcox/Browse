@@ -18,6 +18,7 @@ namespace Browse
     private Worker _worker;
     private CCPreferences _prefs;
     private bool _showDialog;
+    private int _executionCount;
 
     public frmMain()
     {
@@ -36,6 +37,7 @@ namespace Browse
 
     private void btnOpen_Click(object sender, EventArgs e)
     {
+      _executionCount = (int)udRepeat.Value;
       StartWorker();
     }
 
@@ -72,6 +74,7 @@ namespace Browse
       string[] pages = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       int pause = (int)udPause.Value;
       _worker = new Worker(this, _browser, pages, txtRoot.Text, pause, cbPause.Checked);
+      _worker.ThreadDone += ThreadDone;
       _worker.Go();
     }
 
@@ -89,7 +92,8 @@ namespace Browse
       txtRoot.Text = _prefs.Get("root", "");
       cbPause.Checked = _prefs.Get("pause", false);
       udPause.Value = _prefs.Get("pauseTime", 1000);
-
+      cbRepeat.Checked = _prefs.Get("repeat", false);
+      udRepeat.Value = _prefs.Get("repeatTimes", 10);
       this.Opacity = _prefs.Get("opacity", this.Opacity);
       this.TopMost = _prefs.Get("topMost", this.TopMost);
 
@@ -111,11 +115,19 @@ namespace Browse
       _prefs.Set("root", txtRoot.Text);
       _prefs.Set("pause", cbPause.Checked);
       _prefs.Set("pauseTime", udPause.Value);
+      _prefs.Set("repeat", cbRepeat.Checked);
+      _prefs.Set("repeatTimes", udRepeat.Value);
 
       string[] lines = txtPages.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-      ArrayList list = new ArrayList(lines);
-      _prefs.Set("pages", list);
-
+      if (lines.Length > 0)
+      {
+        ArrayList list = new ArrayList(lines);
+        _prefs.Set("pages", list);
+      }
+      else
+      {
+        _prefs.Set("pages", new ArrayList(0));
+      }
       _prefs.Save();
     }
 
@@ -127,7 +139,7 @@ namespace Browse
       _showDialog = true;
       this.Invoke((MethodInvoker)delegate
       {
-        switch(type)
+        switch (type)
         {
           case MessageType.Normal: pnlMsg.BackColor = SystemColors.Highlight; break;
           case MessageType.Error: pnlMsg.BackColor = Color.Red; break;
@@ -143,6 +155,15 @@ namespace Browse
 
     #endregion
 
+    private void ThreadDone(object sender, EventArgs e)
+    {
+      if (cbRepeat.Checked)
+      {
+        _executionCount--;
+        if (_executionCount >= 1)
+          StartWorker();
+      }
+    }
     private void btnAccept_Click(object sender, EventArgs e)
     {
       pnlMsg.Visible = false;
